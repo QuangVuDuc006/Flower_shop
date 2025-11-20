@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8">Giỏ Hàng Của Bạn</h1>
+    
+    {% if items %}
+    <form method="POST" class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sản phẩm</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Giá</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Số lượng</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tổng</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for item in items %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap flex items-center">
+                        <img class="h-12 w-12 rounded object-cover mr-4" src="{{ item.product.image if 'http' in item.product.image else url_for('static', filename='uploads/' + item.product.image) }}" alt="">
+                        <span class="font-medium">{{ item.product.name }}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ "{:,.0f}".format(item.product.price) }}đ</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <input type="number" name="qty_{{ item.product.id }}" value="{{ item.qty }}" min="0" class="w-16 border rounded px-2 py-1 text-center">
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap font-bold text-pink-600">{{ "{:,.0f}".format(item.subtotal) }}đ</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
+            <div class="text-xl font-bold">Tổng cộng: <span class="text-pink-600">{{ "{:,.0f}".format(total) }}đ</span></div>
+            <div class="space-x-2">
+                <button type="submit" name="action" value="update" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cập nhật</button>
+                <button type="submit" name="action" value="checkout" class="px-6 py-2 bg-pink-500 text-white rounded shadow hover:bg-pink-600 font-bold">Thanh Toán</button>
+            </div>
+        </div>
+    </form>
+    {% else %}
+    <div class="text-center py-12 bg-white rounded-lg shadow">
+        <p class="text-gray-500 mb-4">Giỏ hàng trống trơn à...</p>
+        <a href="{{ url_for('index') }}" class="text-pink-500 hover:underline">Đi shopping ngay</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

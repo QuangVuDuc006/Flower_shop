@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title if title else 'Tiệm Hoa Gen Z' }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom colors override if needed */
+        :root { --primary: #ffadad; --secondary: #caffbf; }
+        .font-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 font-body text-gray-800 flex flex-col min-h-screen">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50" x-data="{ mobileOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-2xl font-bold text-pink-500">
+                        🌸 FlowerShop
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-8">
+                        <a href="{{ url_for('index') }}" class="hover:text-pink-500 transition">Trang chủ</a>
+                        <div class="relative group">
+                            <button class="hover:text-pink-500 transition">Danh mục</button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 hidden group-hover:block">
+                                {% for cat in categories %}
+                                <a href="{{ url_for('index', category=cat.id) }}" class="block px-4 py-2 hover:bg-pink-50">{{ cat.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <form action="{{ url_for('index') }}" method="GET" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Tìm hoa..." class="border rounded-full px-4 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    </form>
+
+                    <a href="{{ url_for('cart') }}" class="relative text-gray-600 hover:text-pink-500">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        {% if cart_count > 0 %}
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+
+                    {% if current_user.is_authenticated %}
+                        <div x-data="{ open: false }" class="relative">
+                            <button @click="open = !open" class="font-semibold hover:text-pink-500">{{ current_user.username }}</button>
+                            <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
+                                {% if current_user.is_admin %}
+                                <a href="{{ url_for('admin_dashboard') }}" class="block px-4 py-2 hover:bg-gray-100">Admin Panel</a>
+                                {% endif %}
+                                <a href="{{ url_for('logout') }}" class="block px-4 py-2 hover:bg-gray-100 text-red-500">Đăng xuất</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="hidden md:block text-sm bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition shadow-md hover:shadow-lg">Đăng nhập</a>
+                    {% endif %}
+                    
+                    <button @click="mobileOpen = !mobileOpen" class="md:hidden text-gray-600">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div x-show="mobileOpen" class="md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md hover:bg-pink-50">Trang chủ</a>
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}" class="block px-3 py-2 rounded-md hover:bg-pink-50">Đăng nhập</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="p-4 mb-4 text-sm rounded-lg {{ 'bg-green-100 text-green-700' if category == 'success' else 'bg-red-100 text-red-700' }}" role="alert">
+                <span class="font-medium">{{ message }}</span>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white border-t mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 Tiệm Hoa Gen Z. All rights reserved.</p>
+            <p class="mt-2">Made with <i class="fa-solid fa-heart text-pink-500"></i> by You</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+    </script>
+</body>
+</html>
