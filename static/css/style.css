@@ -1,0 +1,140 @@
+/* === GLOBAL STYLES === */
+:root {
+    --bs-primary: #d63384; /* Màu hồng chủ đạo */
+    --bs-primary-rgb: 214, 51, 132;
+    --bs-secondary: #6c757d;
+    --bs-dark: #212529;
+    --bs-light: #f8f9fa;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--bs-dark);
+    background-color: #fff;
+    overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+}
+
+/* Áp dụng font serif cho các tiêu đề */
+h1, h2, h3, h4, h5, h6, .ff-serif {
+    font-family: var(--font-serif);
+}
+
+.fw-bold { font-weight: 700 !important; }
+.ls-1 { letter-spacing: 1px; }
+.transition-all { transition: all 0.3s ease-in-out; }
+
+/* Tùy chỉnh màu chính của Bootstrap */
+.text-primary { color: var(--bs-primary) !important; }
+.bg-primary { background-color: var(--bs-primary) !important; }
+.bg-primary-subtle { background-color: rgba(var(--bs-primary-rgb), 0.1) !important; }
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #c21c68 !important; /* Hồng đậm hơn khi hover */
+    border-color: #c21c68 !important;
+}
+.btn-outline-primary {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+.btn-outline-primary:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/* === UTILITY CLASSES === */
+.hover-lift:hover { transform: translateY(-3px); }
+.hover-shadow-lg:hover { box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important; }
+.hover-primary:hover { color: var(--bs-primary) !important; }
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* === NAVBAR === */
+.navbar .nav-link {
+    font-weight: 500;
+    color: var(--bs-dark);
+    transition: color 0.2s;
+}
+.navbar .nav-link:hover, .navbar .nav-link.active {
+    color: var(--bs-primary);
+}
+.nav-icon {
+    font-size: 1.2rem;
+    color: var(--bs-dark);
+    transition: color 0.2s;
+}
+.nav-icon:hover { color: var(--bs-primary); }
+.dropdown-menu {
+    border-radius: 0.5rem;
+    margin-top: 0.5rem !important;
+}
+.dropdown-item:hover {
+    background-color: var(--bs-light);
+    color: var(--bs-primary);
+}
+
+/* === HERO SECTION === */
+.hero-section {
+    height: 85vh; /* Chiều cao banner */
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Hiệu ứng parallax nhẹ */
+}
+
+/* === PRODUCT CARD === */
+.product-card .product-img {
+    transition: transform 0.5s ease;
+}
+.product-card:hover .product-img {
+    transform: scale(1.05); /* Phóng to ảnh nhẹ khi hover */
+}
+.product-card:hover .product-action {
+    opacity: 1; /* Hiện nút hành động khi hover */
+    bottom: 20px; /* Trượt lên */
+}
+.product-action {
+    z-index: 3;
+    transition: all 0.3s ease-in-out;
+}
+
+/* === FOOTER === */
+.footer-link {
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.2s;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.footer-link:hover {
+    color: var(--bs-primary);
+    transform: translateX(5px); /* Trượt nhẹ sang phải */
+}
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.social-icon:hover {
+    background-color: var(--bs-primary);
+    transform: translateY(-3px);
+}
+.newsletter-form .form-control:focus {
+    box-shadow: none;
+    border-color: var(--bs-primary);
+}

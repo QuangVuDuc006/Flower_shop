@@ -1,61 +1,98 @@
 {% extends "base.html" %}
 
+{% block title %}Trang Chủ - Bloom & Whisper{% endblock %}
+
 {% block content %}
-<section class="bg-gradient-to-r from-pink-100 to-purple-100 py-20" data-aos="fade-in">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">
-            Trao Gửi Yêu Thương <br> <span class="text-pink-500">Qua Từng Cánh Hoa</span>
-        </h1>
-        <p class="text-lg text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="200">
-            Đặt hoa tươi online, giao hàng hỏa tốc trong 2h. Tặng kèm thiệp miễn phí!
-        </p>
-        <a href="#products" class="inline-block bg-pink-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-pink-600 hover:scale-105 transition transform" data-aos="fade-up" data-aos-delay="300">
-            Xem Sản Phẩm Ngay
-        </a>
+
+<section class="hero-section d-flex align-items-center text-white" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1600x900/?flower,luxury');">
+    <div class="container text-center" data-aos="zoom-in">
+        <span class="badge bg-white text-dark rounded-pill px-3 py-2 mb-3 fw-bold ls-1">MÙA HOA 2024</span>
+        <h1 class="display-3 fw-bold mb-4 ff-serif">Gửi Trao <span class="text-primary">Cảm Xúc</span><br>Qua Từng Cánh Hoa</h1>
+        <p class="lead mb-5 mx-auto" style="max-width: 700px;">Khám phá bộ sưu tập hoa nghệ thuật được thiết kế riêng cho những khoảnh khắc đáng nhớ nhất trong cuộc đời bạn.</p>
+        <div>
+            <a href="#products" class="btn btn-primary btn-lg rounded-pill px-5 me-3 hover-lift">Mua Ngay <i class="fas fa-arrow-right ms-2"></i></a>
+            <a href="#" class="btn btn-outline-light btn-lg rounded-pill px-5 hover-lift">Xem Bộ Sưu Tập</a>
+        </div>
     </div>
 </section>
-
-<section id="products" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-end mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">Sản Phẩm Mới Nhất</h2>
-        <div class="hidden md:flex space-x-2">
-            <a href="{{ url_for('index') }}" class="px-4 py-1 rounded-full border border-gray-300 hover:bg-pink-500 hover:text-white transition text-sm">Tất cả</a>
-            {% for c in categories %}
-            <a href="{{ url_for('index', category=c.id) }}" class="px-4 py-1 rounded-full border border-gray-300 hover:bg-pink-500 hover:text-white transition text-sm">{{ c.name }}</a>
-            {% endfor %}
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="row text-center g-4">
+            <div class="col-md-4" data-aos="fade-up">
+                <div class="feature-box p-4 bg-white rounded-4 shadow-sm h-100 hover-shadow-lg transition-all">
+                    <div class="icon-box mb-4 text-primary mx-auto bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-shipping-fast fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3 ff-serif">Giao Hàng Siêu Tốc</h4>
+                    <p class="text-muted mb-0">Giao hoa nội thành chỉ trong 2 giờ. Miễn phí vận chuyển cho đơn từ 500k.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+                <div class="feature-box p-4 bg-white rounded-4 shadow-sm h-100 hover-shadow-lg transition-all">
+                    <div class="icon-box mb-4 text-primary mx-auto bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-shield-alt fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3 ff-serif">Cam Kết Tươi Mới</h4>
+                    <p class="text-muted mb-0">Hoa được tuyển chọn kỹ lưỡng mỗi sáng, đảm bảo độ tươi ít nhất 3 ngày.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-box p-4 bg-white rounded-4 shadow-sm h-100 hover-shadow-lg transition-all">
+                    <div class="icon-box mb-4 text-primary mx-auto bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="far fa-heart fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3 ff-serif">Nghệ Thuật Tận Tâm</h4>
+                    <p class="text-muted mb-0">Đội ngũ Florist chuyên nghiệp, thiết kế theo yêu cầu và phong cách riêng.</p>
+                </div>
+            </div>
         </div>
     </div>
+</section>
+<section class="py-5" id="products">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-5" data-aos="fade-right">
+            <div>
+                <h2 class="fw-bold display-6 ff-serif mb-2">Sản Phẩm Nổi Bật</h2>
+                <p class="text-muted mb-0">Những mẫu hoa được yêu thích nhất tuần qua</p>
+            </div>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4 hover-lift">Xem tất cả <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {% for p in products %}
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 overflow-hidden group" data-aos="fade-up">
-            <div class="relative h-64 overflow-hidden">
-                <img src="{{ p.image if 'http' in p.image else url_for('static', filename='uploads/' + p.image) }}" 
-                     alt="{{ p.name }}" 
-                     class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                {% if p.stock == 0 %}
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white font-bold">HẾT HÀNG</div>
-                {% endif %}
-            </div>
-            <div class="p-5">
-                <p class="text-xs text-gray-500 mb-1">{{ p.category.name }}</p>
-                <h3 class="text-lg font-bold text-gray-800 truncate mb-2">{{ p.name }}</h3>
-                <div class="flex justify-between items-center">
-                    <span class="text-pink-600 font-bold text-lg">{{ "{:,.0f}".format(p.price) }}đ</span>
-                    <form action="{{ url_for('add_to_cart', id=p.id) }}" method="POST">
-                        <button type="submit" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-pink-500 hover:text-white flex items-center justify-center transition">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </form>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden product-card hover-shadow-lg transition-all">
+                    <div class="position-relative overflow-hidden">
+                        <span class="position-absolute top-0 start-0 bg-white text-dark rounded-pill px-3 py-1 m-3 small fw-bold shadow-sm" style="z-index: 2;">{{ product.category.name }}</span>
+                        <a href="{{ url_for('product_detail', id=product.id) }}">
+                            <img src="{{ product.image_url }}" class="card-img-top product-img" alt="{{ product.name }}" style="height: 320px; object-fit: cover;">
+                        </a>
+                        <div class="product-action position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2 opacity-0 transition-all">
+                            <a href="#" class="btn btn-light rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center hover-primary" style="width: 40px; height: 40px;" title="Yêu thích"><i class="far fa-heart"></i></a>
+                            <form action="{{ url_for('add_to_cart', id=product.id) }}" method="POST">
+                                <button type="submit" class="btn btn-primary rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" title="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-2 text-warning small">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-muted ms-1">(4.5)</span>
+                        </div>
+                        <h5 class="card-title fw-bold ff-serif mb-2">
+                            <a href="{{ url_for('product_detail', id=product.id) }}" class="text-decoration-none text-dark stretched-link">{{ product.name }}</a>
+                        </h5>
+                        <p class="card-text text-muted small line-clamp-2 mb-3">{{ product.description }}</p>
+                        <h5 class="fw-bold text-primary mb-0">{{ "{:,.0f}".format(product.price) }} ₫</h5>
+                    </div>
                 </div>
-                <a href="{{ url_for('product_detail', id=p.id) }}" class="block mt-4 text-center text-sm text-gray-500 hover:text-pink-500">Xem chi tiết</a>
             </div>
+            {% endfor %}
         </div>
-        {% else %}
-        <div class="col-span-full text-center py-10 text-gray-500">
-            Không tìm thấy sản phẩm nào bro ơi :(
-        </div>
-        {% endfor %}
     </div>
 </section>
 {% endblock %}

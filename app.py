@@ -40,18 +40,21 @@ def save_image(file):
 
 @app.route('/')
 def index():
-    # Query params for filter
-    cat_id = request.args.get('category')
-    q = request.args.get('q')
+    # Lấy 8 sản phẩm mới nhất làm "Sản phẩm nổi bật"
+    # Frontend mới dùng biến tên là 'featured_products'
+    featured_products = Product.query.order_by(Product.id.desc()).limit(8).all()
+    return render_template('index.html', featured_products=featured_products)
+
+
+# --- THÊM ROUTE MỚI NÀY (Để menu danh mục hoạt động) ---
+@app.route('/category/<int:category_id>')
+def category_products(category_id):
+    category = Category.query.get_or_404(category_id)
+    # Lấy sản phẩm thuộc danh mục này
+    products = Product.query.filter_by(category_id=category_id).all()
     
-    query = Product.query
-    if cat_id:
-        query = query.filter_by(category_id=cat_id)
-    if q:
-        query = query.filter(Product.name.ilike(f'%{q}%'))
-        
-    products = query.all()
-    return render_template('index.html', products=products, title="Home")
+    # Tái sử dụng template index.html nhưng truyền list sản phẩm đã lọc
+    return render_template('index.html', featured_products=products, title=category.name)
 
 @app.route('/product/<int:id>')
 def product_detail(id):

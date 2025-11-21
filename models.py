@@ -24,6 +24,13 @@ class Product(db.Model):
     image = db.Column(db.String(150), nullable=False, default='default.jpg')
     stock = db.Column(db.Integer, default=10)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    
+    @property
+    def image_url(self):
+        # Logic: Nếu link ảnh bắt đầu bằng http thì dùng luôn, không thì nối với thư mục static
+        if self.image and ('http' in self.image or 'https' in self.image):
+            return self.image
+        return f"/static/uploads/{self.image}"
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
