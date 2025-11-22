@@ -67,19 +67,28 @@
                 {% if current_user.is_authenticated %}
                     <div class="dropdown ms-3">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="{{ current_user.avatar or 'https://ui-avatars.com/api/?name=' + current_user.username }}" alt="Avatar" class="rounded-circle me-2" width="32" height="32">
+                            <img src="{{ current_user.avatar or 'https://ui-avatars.com/api/?name=' + current_user.username }}" 
+                                alt="Avatar" class="rounded-circle me-2 border border-2 border-primary" width="32" height="32">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 animate__animated animate__fadeIn" style="min-width: 200px;">
+                            <li><h6 class="dropdown-header">Xin chào, {{ current_user.username }}! 👋</h6></li>
+                            
                             {% if current_user.is_admin %}
-                            <li><a class="dropdown-item" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Quản trị</a></li>
-                            {% endif %}
-                            <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-user me-2"></i>Hồ sơ</a></li>
+                            <li>
+                                <a class="dropdown-item text-danger fw-bold py-2" href="{{ url_for('admin_dashboard') }}">
+                                    <i class="fas fa-user-shield me-2"></i> Trang Quản Trị
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item py-2" href="{{ url_for('profile') }}"><i class="fas fa-user me-2 text-muted"></i> Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item py-2" href="#"><i class="fas fa-box-open me-2 text-muted"></i> Đơn mua</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger py-2" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
                         </ul>
                     </div>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-sm ms-3 rounded-pill px-3">Đăng Nhập</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm ms-3 rounded-pill px-4 shadow-sm">Đăng Nhập</a>
                 {% endif %}
             </div>
         </div>

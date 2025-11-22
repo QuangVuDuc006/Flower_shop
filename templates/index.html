@@ -4,14 +4,40 @@
 
 {% block content %}
 
-<section class="hero-section d-flex align-items-center text-white" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1600x900/?flower,luxury');">
-    <div class="container text-center" data-aos="zoom-in">
+<section class="hero-section position-relative overflow-hidden">
+    <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=2070&auto=format&fit=crop" class="d-block w-100 h-100 object-fit-cover" alt="Mùa hoa 2024">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="carousel-item h-100">
+                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?q=80&w=2070&auto=format&fit=crop" class="d-block w-100 h-100 object-fit-cover" alt="Gửi trao cảm xúc">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="carousel-item h-100">
+                <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=2070&auto=format&fit=crop" class="d-block w-100 h-100 object-fit-cover" alt="Nghệ thuật cắm hoa">
+                <div class="hero-overlay"></div>
+            </div>
+        </div>
+        
+        <button class="carousel-control-prev z-3" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next z-3" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container text-center hero-content position-absolute top-50 start-50 translate-middle text-white z-2" data-aos="zoom-in">
         <span class="badge bg-white text-dark rounded-pill px-3 py-2 mb-3 fw-bold ls-1">MÙA HOA 2024</span>
         <h1 class="display-3 fw-bold mb-4 ff-serif">Gửi Trao <span class="text-primary">Cảm Xúc</span><br>Qua Từng Cánh Hoa</h1>
-        <p class="lead mb-5 mx-auto" style="max-width: 700px;">Khám phá bộ sưu tập hoa nghệ thuật được thiết kế riêng cho những khoảnh khắc đáng nhớ nhất trong cuộc đời bạn.</p>
+        <p class="lead mb-5 mx-auto" style="max-width: 700px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Khám phá bộ sưu tập hoa nghệ thuật được thiết kế riêng cho những khoảnh khắc đáng nhớ nhất trong cuộc đời bạn.</p>
         <div>
-            <a href="#products" class="btn btn-primary btn-lg rounded-pill px-5 me-3 hover-lift">Mua Ngay <i class="fas fa-arrow-right ms-2"></i></a>
-            <a href="#" class="btn btn-outline-light btn-lg rounded-pill px-5 hover-lift">Xem Bộ Sưu Tập</a>
+            <a href="#products" class="btn btn-primary btn-lg rounded-pill px-5 me-3 hover-lift shadow-lg">Mua Ngay <i class="fas fa-arrow-right ms-2"></i></a>
+            <a href="#" class="btn btn-outline-light btn-lg rounded-pill px-5 hover-lift shadow-lg">Xem Bộ Sưu Tập</a>
         </div>
     </div>
 </section>
@@ -64,9 +90,11 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden product-card hover-shadow-lg transition-all">
                     <div class="position-relative overflow-hidden">
                         <span class="position-absolute top-0 start-0 bg-white text-dark rounded-pill px-3 py-1 m-3 small fw-bold shadow-sm" style="z-index: 2;">{{ product.category.name }}</span>
+                        
                         <a href="{{ url_for('product_detail', id=product.id) }}">
                             <img src="{{ product.image_url }}" class="card-img-top product-img" alt="{{ product.name }}" style="height: 320px; object-fit: cover;">
                         </a>
+                        
                         <div class="product-action position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2 opacity-0 transition-all">
                             <a href="#" class="btn btn-light rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center hover-primary" style="width: 40px; height: 40px;" title="Yêu thích"><i class="far fa-heart"></i></a>
                             <form action="{{ url_for('add_to_cart', id=product.id) }}" method="POST">
@@ -74,15 +102,13 @@
                             </form>
                         </div>
                     </div>
+                    
                     <div class="card-body p-4">
                         <div class="mb-2 text-warning small">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                             <span class="text-muted ms-1">(4.5)</span>
                         </div>
+                        
                         <h5 class="card-title fw-bold ff-serif mb-2">
                             <a href="{{ url_for('product_detail', id=product.id) }}" class="text-decoration-none text-dark stretched-link">{{ product.name }}</a>
                         </h5>

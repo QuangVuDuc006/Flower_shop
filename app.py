@@ -7,6 +7,7 @@ from config import Config
 from models import db, User, Product, Category, Order, OrderItem
 from forms import LoginForm, RegisterForm, ProductForm, CheckoutForm
 import uuid
+from functools import wraps
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,6 +20,24 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# --- Decorator chặn người thường ---
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_admin:
+            flash("Chỉ Admin mới được vào đây!", "danger")
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+# --- Routes Admin ---
+@app.route('/admin')
+@login_required  # Phải đăng nhập
+@admin_required  # Phải là Admin
+def admin_dashboard():
+    products = Product.query.order_by(Product.id.desc()).all()
+    return render_template('admin/dashboard.html', products=products)
 
 # --- Context Processor (Injects data into all templates) ---
 @app.context_processor
@@ -209,14 +228,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# --- Admin Routes ---
-@app.route('/admin')
-@login_required
-def admin_dashboard():
-    if not current_user.is_admin: return redirect(url_for('index'))
-    products = Product.query.all()
-    orders = Order.query.order_by(Order.date_ordered.desc()).all()
-    return render_template('admin/dashboard.html', products=products, orders=orders)
 
 @app.route('/admin/product/new', methods=['GET', 'POST'])
 @login_required
