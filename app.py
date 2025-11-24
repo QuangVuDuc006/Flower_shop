@@ -39,6 +39,63 @@ def admin_dashboard():
     products = Product.query.order_by(Product.id.desc()).all()
     return render_template('admin/dashboard.html', products=products)
 
+# --- Route Sửa sản phẩm (Thêm đoạn này vào app.py) ---
+@app.route('/admin/product/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_product(id):
+    product = Product.query.get_or_404(id)
+    form = ProductForm()
+    # Load danh mục vào Select box
+    form.category.choices = [(c.id, c.name) for c in Category.query.all()]
+
+    if form.validate_on_submit():
+        product.name = form.name.data
+        product.price = form.price.data
+        product.description = form.description.data
+        product.stock = form.stock.data
+        product.category_id = form.category.data
+        
+        # Nếu có up ảnh mới thì thay, không thì giữ nguyên
+        if form.image.data:
+            filename = save_image(form.image.data)
+            if filename:
+                product.image = filename
+        
+        db.session.commit()
+        flash('Đã cập nhật thông tin sản phẩm!', 'success')
+        return redirect(url_for('admin_dashboard'))
+    
+    # Điền dữ liệu cũ vào form khi mới mở lên
+    elif request.method == 'GET':
+        form.name.data = product.name
+        form.price.data = product.price
+        form.description.data = product.description
+        form.stock.data = product.stock
+        form.category.data = product.category_id
+
+    # Lưu ý: render_template trỏ vào thư mục admin
+    return render_template('admin/product_form.html', form=form, title="Sửa Sản Phẩm", product=product)
+
+# --- Route Xóa sản phẩm (Thêm vào app.py) ---
+@app.route('/admin/product/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def delete_product(id):
+    product = Product.query.get_or_404(id)
+    
+    # (Optional) Nếu muốn xóa luôn ảnh trong thư mục để đỡ rác thì thêm đoạn này:
+    # try:
+    #     if product.image and product.image != 'default.jpg':
+    #         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], product.image))
+    # except:
+    #     pass
+
+    db.session.delete(product)
+    db.session.commit()
+    flash('Đã xóa sản phẩm khỏi trái đất!', 'success')
+    return redirect(url_for('admin_dashboard'))
+
 # --- Context Processor (Injects data into all templates) ---
 @app.context_processor
 def inject_context():
@@ -252,6 +309,14 @@ def new_product():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('base.html'), 404 # Minimal fallback, usually separate template
+
+# --- Route Hồ sơ cá nhân ---
+@app.route('/profile')
+@login_required
+def profile():
+    # Lấy danh sách đơn hàng của người dùng này
+    orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.id.desc()).all()
+    return render_template('profile.html', orders=orders)
 
 if __name__ == '__main__':
     # Auto create folders

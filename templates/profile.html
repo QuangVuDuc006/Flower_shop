@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Hồ sơ của {{ current_user.username }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body text-center p-4">
+                    <img src="{{ current_user.avatar or 'https://ui-avatars.com/api/?name=' + current_user.username }}" 
+                         class="rounded-circle mb-3 border border-3 border-primary p-1" width="100" height="100">
+                    <h4 class="fw-bold">{{ current_user.username }}</h4>
+                    <p class="text-muted">{{ current_user.email }}</p>
+                    <hr>
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary rounded-pill">Chỉnh sửa thông tin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="fw-bold ff-serif mb-4">Lịch Sử Đơn Hàng</h3>
+            {% if orders %}
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="py-3 ps-4">Mã đơn</th>
+                                    <th class="py-3">Ngày đặt</th>
+                                    <th class="py-3">Tổng tiền</th>
+                                    <th class="py-3">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td class="ps-4 fw-bold">#{{ order.id }}</td>
+                                    <td>{{ order.date_ordered.strftime('%d/%m/%Y') }}</td>
+                                    <td class="text-primary fw-bold">{{ "{:,.0f}".format(order.total_price) }}đ</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if order.status == 'Completed' else 'warning' }} rounded-pill">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info rounded-4">
+                    Bạn chưa mua đơn hàng nào. <a href="{{ url_for('index') }}" class="fw-bold">Mua ngay!</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -13,3 +13,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = uri or 'sqlite:///' + os.path.join(basedir, 'flower_shop.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.join(basedir, 'static/uploads')
+
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,  # Kiểm tra kết nối trước khi dùng (Quan trọng nhất)
+        "pool_recycle": 300,    # Tự động làm mới kết nối sau mỗi 300 giây (5 phút)
+    }
